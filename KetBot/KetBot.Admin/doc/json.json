@@ -1,8 +1,0 @@
-﻿{
-  "name": "ketbotdatasource",
-  "type": "documentdb",
-  "credentials": {
-    "connectionString\"": "AccountEndpoint=https://ketbot.documents.azure.com:443/;AccountKey=oh9PPeI38xWDfIj6WvJs75klwkaogFGPKRpWXq6uzbEPhq8FRGrcHIRl6SV1I8hDAdqUPUDn7lochwc0ud2CmQ==;"
-  },
-  "container": { "name": "KebBotAnswer" }
-}

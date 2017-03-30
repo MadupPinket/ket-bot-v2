@@ -1,6 +1,0 @@
-C:\Users\iloh\source\ketbotv2\ket-bot-v2\KetBot\KetBot.Admin\bin\Debug\netcoreapp1.1\KetBot.Admin.deps.json
-C:\Users\iloh\source\ketbotv2\ket-bot-v2\KetBot\KetBot.Admin\bin\Debug\netcoreapp1.1\KetBot.Admin.runtimeconfig.json
-C:\Users\iloh\source\ketbotv2\ket-bot-v2\KetBot\KetBot.Admin\bin\Debug\netcoreapp1.1\KetBot.Admin.runtimeconfig.dev.json
-C:\Users\iloh\source\ketbotv2\ket-bot-v2\KetBot\KetBot.Admin\bin\Debug\netcoreapp1.1\KetBot.Admin.dll
-C:\Users\iloh\source\ketbotv2\ket-bot-v2\KetBot\KetBot.Admin\obj\Debug\netcoreapp1.1\KetBot.Admin.csprojResolveAssemblyReference.cache
-C:\Users\iloh\source\ketbotv2\ket-bot-v2\KetBot\KetBot.Admin\obj\Debug\netcoreapp1.1\KetBot.Admin.AssemblyInfo.cs
