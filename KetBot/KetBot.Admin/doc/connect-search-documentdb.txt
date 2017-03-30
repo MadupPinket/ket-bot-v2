@@ -1,0 +1,21 @@
+﻿POST https://ketbot.search.windows.net/datasources?api-version=2016-09-01 HTTP/1.1
+Content-Type: application/json
+api-key: 8F86F51E9F6FC30E4A63C00EFCDEA5E2
+
+{
+  "name": "ketbotdatasource",
+  "type": "documentdb",
+  "credentials": {
+    "connectionString": "AccountEndpoint=https://ketbot.documents.azure.com:443/;AccountKey=oh9PPeI38xWDfIj6WvJs75klwkaogFGPKRpWXq6uzbEPhq8FRGrcHIRl6SV1I8hDAdqUPUDn7lochwc0ud2CmQ==;"
+  },
+  "container": { 
+	"name": "KebBotAnswer",
+	"query" : "SELECT f.id, c.firstName, f.lastName, c.gender FROM families f join c IN f.children"
+	
+  }
+}
+
+
+SELECT a.id, a.title, a.message, c FROM KetBotAnswer a join c IN a.keywords
+SELECT a.id, a.intent, a.title, a.message, keyword, a.answer, a._ts FROM KetBotAnswer a JOIN keyword IN a.keywords WHERE a._ts > @HighWaterMark
+
