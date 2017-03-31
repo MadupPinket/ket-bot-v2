@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Models;
 using KetBot.Bot.Dialogs;
+using System;
 
 namespace KetBot.Bot
 {
@@ -42,9 +40,11 @@ namespace KetBot.Bot
             }
             else if (message.Type == ActivityTypes.ConversationUpdate)
             {
-                // Handle conversation state changes, like members being added and removed
-                // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
-                // Not available in all channels
+                // Ketbot Introduce by himself. 
+                // Ketbot이 스스로 자기소개 하기. 여기서 작업의 범위를 지정해준다. 
+                var connector = new ConnectorClient(new Uri(message.ServiceUrl));
+                connector.Conversations.ReplyToActivity(message.CreateReply("안녕하세요. 저는 켓봇이라고 합니다"));
+
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
