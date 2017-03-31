@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26228.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KetBot.Bot", "KetBot.Bot\KetBot.Bot.csproj", "{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KetBot.Data.InsertTool", "KetBot.Data.InsertTool\KetBot.Data.InsertTool.csproj", "{6F9D76EC-90D1-4433-9F43-E93135538E0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KetBot.Data.InsertTool", "KetBot.Data.InsertTool\KetBot.Data.InsertTool.csproj", "{419DF4A9-ED02-4A04-A8D6-9025B700F074}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F9D76EC-90D1-4433-9F43-E93135538E0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F9D76EC-90D1-4433-9F43-E93135538E0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F9D76EC-90D1-4433-9F43-E93135538E0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F9D76EC-90D1-4433-9F43-E93135538E0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{419DF4A9-ED02-4A04-A8D6-9025B700F074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{419DF4A9-ED02-4A04-A8D6-9025B700F074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{419DF4A9-ED02-4A04-A8D6-9025B700F074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{419DF4A9-ED02-4A04-A8D6-9025B700F074}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
