@@ -12,6 +12,8 @@ namespace KetBot.Bot
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            AutofacBootstrapper.Initialise();
         }
     }
 }

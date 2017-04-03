@@ -6,12 +6,20 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using KetBot.Bot.Dialogs;
 using System;
+using KetBot.Data;
 
 namespace KetBot.Bot
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        //private IKetbotMongoRepository ketbotRepository;
+
+        //public MessagesController(IKetbotMongoRepository repository)
+        //{
+        //    ketbotRepository = repository;
+        //}
+
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
@@ -20,8 +28,17 @@ namespace KetBot.Bot
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                //await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
-                await Conversation.SendAsync(activity, () => new KetbotLuisDialog());
+                if (activity.Text.StartsWith("처음"))
+                {
+                    // Ketbot Introduce by himself. 
+                    // Ketbot이 스스로 자기소개 하기. 여기서 작업의 범위를 지정해준다. 
+                    var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+                    connector.Conversations.ReplyToActivity(activity.CreateReply("안녕하세요. 저는 켓봇이라고 합니다"));
+                }
+                else
+                {
+                    await Conversation.SendAsync(activity, () => new KetbotLuisDialog());
+                }
             }
             else
             {
@@ -40,11 +57,6 @@ namespace KetBot.Bot
             }
             else if (message.Type == ActivityTypes.ConversationUpdate)
             {
-                // Ketbot Introduce by himself. 
-                // Ketbot이 스스로 자기소개 하기. 여기서 작업의 범위를 지정해준다. 
-                var connector = new ConnectorClient(new Uri(message.ServiceUrl));
-                connector.Conversations.ReplyToActivity(message.CreateReply("안녕하세요. 저는 켓봇이라고 합니다"));
-
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {

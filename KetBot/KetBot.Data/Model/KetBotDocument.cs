@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KetBot.Data
+namespace KetBot.Data.Model
 {
     public class KetBotDocument
     {
@@ -13,11 +13,11 @@ namespace KetBot.Data
         public string title { get; set; }
         public string answer { get; set; }
         public string[] keywords { get; set; }
-        public Attachment[] attachments { get; set; }
+        public DocumentAttachment[] attachments { get; set; }
         public bool isdeleted { get; set; }
     }
 
-    public class Attachment
+    public class DocumentAttachment
     {
         public string contentType { get; set; }
         public string contentUrl { get; set; }
