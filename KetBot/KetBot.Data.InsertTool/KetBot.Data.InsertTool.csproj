@@ -45,6 +45,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,12 +55,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentDbManager.cs" />
+    <Compile Include="Inserter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="170331_KetBot_UI_Rule_Structure_WSS_v06.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="datasource.txt" />
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="sample_doc.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KetBot.Data\KetBot.Data.csproj">
+      <Project>{1a635f65-0165-4d7e-af48-b5c76bb0c9d5}</Project>
+      <Name>KetBot.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Azure.DocumentDB.1.13.1\build\Microsoft.Azure.DocumentDB.targets" Condition="Exists('..\packages\Microsoft.Azure.DocumentDB.1.13.1\build\Microsoft.Azure.DocumentDB.targets')" />
