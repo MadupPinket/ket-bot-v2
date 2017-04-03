@@ -153,6 +153,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Luis.cs" />
+    <Compile Include="Luis\LUISKetbotClient.cs" />
+    <Compile Include="Luis\lEntity.cs" />
+    <Compile Include="Luis\lIntent.cs" />
+    <Compile Include="Luis\KetbotLUIS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,6 @@
 ﻿using KetBot.Data.Model;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -24,18 +26,18 @@ namespace KetBot.Data.Repositories
 
         public async Task<IEnumerable<KetBotDocument>> GetAllByIntentAsync(string intent)
         {
-            var list = await answers.Find(x => x.intent == intent).ToListAsync();
-            return list;
+            var filter = Builders<KetBotDocument>.Filter.Eq("Intent", intent);
+            var docs = await answers.Find(filter).ToListAsync();
+            return docs;
         }
 
         public async Task<IEnumerable<KetBotDocument>> GetByKeywordWithinIntentAsync(string intent, List<string> searchwords)
         {
-            //var filter = Builders<KetBotDocument>.Filter.AnyIn("keywords", searchwords);
-            var filter = Builders<KetBotDocument>.Filter.AnyIn(p => p.keywords, searchwords);
-            
-            // TODO : 쿼리 다시 만들어야 함. 
-            var list = await answers.Find(filter).ToListAsync();
-            return list.Where(x => x.intent == intent).ToList();
+            var intentFilter = Builders<KetBotDocument>.Filter.Eq("Intent", intent);
+            var keywordFilter = Builders<KetBotDocument>.Filter.AnyIn(x => x.Keywords, searchwords);
+            var filter = intentFilter | keywordFilter;
+            var docs = await answers.Find(filter).ToListAsync();
+            return docs;
         }
     }
 }

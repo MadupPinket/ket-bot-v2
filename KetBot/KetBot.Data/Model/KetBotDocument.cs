@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +11,13 @@ namespace KetBot.Data.Model
     [Serializable]
     public class KetBotDocument
     {
-        public string id { get; set; }
-        public string intent { get; set; }
-        public string title { get; set; }
-        public string answer { get; set; }
-        public string[] keywords { get; set; }
+        [BsonId]
+        public BsonObjectId _id { get; set; }
+        public string ID { get; set; }
+        public string Intent { get; set; }
+        public string Title { get; set; }
+        public string Answer { get; set; }
+        public string[] Keywords { get; set; }
         public DocumentAttachment[] attachments { get; set; }
     }
 
