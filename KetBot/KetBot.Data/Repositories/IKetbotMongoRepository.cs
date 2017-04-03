@@ -9,9 +9,8 @@ namespace KetBot.Data.Repositories
 {
     public interface IKetbotMongoRepository
     {
-        IEnumerable<KetBotDocument> GetAll(int page = 1, int pageSize = 10);
+        Task<IEnumerable<KetBotDocument>> GetAllByIntentAsync(string intent);
 
-        int Count();
-
+        Task<IEnumerable<KetBotDocument>> GetByKeywordWithinIntentAsync(string intent, List<string> keywords);
     }
 }

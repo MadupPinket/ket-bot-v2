@@ -7,18 +7,19 @@ using Microsoft.Bot.Connector;
 using KetBot.Bot.Dialogs;
 using System;
 using KetBot.Data;
+using KetBot.Data.Repositories;
 
 namespace KetBot.Bot
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        //private IKetbotMongoRepository ketbotRepository;
+        private IKetbotMongoRepository ketbotRepository;
 
-        //public MessagesController(IKetbotMongoRepository repository)
-        //{
-        //    ketbotRepository = repository;
-        //}
+        public MessagesController(IKetbotMongoRepository repository)
+        {
+            ketbotRepository = repository;
+        }
 
         /// <summary>
         /// POST: api/Messages
@@ -37,7 +38,7 @@ namespace KetBot.Bot
                 }
                 else
                 {
-                    await Conversation.SendAsync(activity, () => new KetbotLuisDialog());
+                    await Conversation.SendAsync(activity, () => new KetbotLuisDialog(ketbotRepository));
                 }
             }
             else

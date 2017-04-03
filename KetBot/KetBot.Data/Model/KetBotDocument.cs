@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace KetBot.Data.Model
 {
+    [Serializable]
     public class KetBotDocument
     {
         public string id { get; set; }
@@ -14,9 +15,9 @@ namespace KetBot.Data.Model
         public string answer { get; set; }
         public string[] keywords { get; set; }
         public DocumentAttachment[] attachments { get; set; }
-        public bool isdeleted { get; set; }
     }
 
+    [Serializable]
     public class DocumentAttachment
     {
         public string contentType { get; set; }

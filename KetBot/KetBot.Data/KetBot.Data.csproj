@@ -54,12 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Repositories\IKetbotMongoRepository.cs" />
-    <Compile Include="Repositories\ISession.cs" />
     <Compile Include="Model\KetBotDocument.cs" />
+    <Compile Include="Repositories\IKetbotMongoRepository.cs" />
     <Compile Include="Repositories\KetbotMongoRepository.cs" />
-    <Compile Include="Model\KetbotResponse.cs" />
-    <Compile Include="Repositories\MongoSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

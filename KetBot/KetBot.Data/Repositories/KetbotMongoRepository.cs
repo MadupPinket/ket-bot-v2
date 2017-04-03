@@ -1,31 +1,42 @@
 ﻿using KetBot.Data.Model;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KetBot.Data.Repositories
 {
+    [Serializable]
     public class KetbotMongoRepository : IKetbotMongoRepository
     {
+        private IMongoCollection<KetBotDocument> answers;
+
         public KetbotMongoRepository()
         {
-
+            string connString = ConfigurationManager.AppSettings["MongoDBConnectionString"];
+            var client = new MongoClient(connString);
+            var ketbotdb = client.GetDatabase(ConfigurationManager.AppSettings["MongoDBDatabase"]);
+            answers = ketbotdb.GetCollection<KetBotDocument>(ConfigurationManager.AppSettings["MongoDBCollection"]);
         }
 
-        public int Count()
+        public async Task<IEnumerable<KetBotDocument>> GetAllByIntentAsync(string intent)
         {
-            throw new NotImplementedException();
+            var list = await answers.Find(x => x.intent == intent).ToListAsync();
+            return list;
         }
 
-        public IEnumerable<KetBotDocument> GetAll(int page = 1, int pageSize = 10)
+        public async Task<IEnumerable<KetBotDocument>> GetByKeywordWithinIntentAsync(string intent, List<string> searchwords)
         {
-            //using (var session = new SessionT())
-            //{
-            //    return session.All<KetBotDocument>().OrderByDescending(r => r.UpdatedDate).Skip(pageSize * (page - 1)).Take(pageSize).ToList();
-            //}
-            throw new NotImplementedException();
+            //var filter = Builders<KetBotDocument>.Filter.AnyIn("keywords", searchwords);
+            var filter = Builders<KetBotDocument>.Filter.AnyIn(p => p.keywords, searchwords);
+            
+            // TODO : 쿼리 다시 만들어야 함. 
+            var list = await answers.Find(filter).ToListAsync();
+            return list.Where(x => x.intent == intent).ToList();
+            //return list;
         }
     }
 }
