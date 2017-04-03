@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
-using KetBot.Bot.Dialogs;
 using System;
 using KetBot.Data;
 using KetBot.Data.Repositories;
@@ -31,7 +30,6 @@ namespace KetBot.Bot
             {
                 if (activity.Text.StartsWith("처음"))
                 {
-                    // Ketbot Introduce by himself. 
                     // Ketbot이 스스로 자기소개 하기. 여기서 작업의 범위를 지정해준다. 
                     var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
                     connector.Conversations.ReplyToActivity(activity.CreateReply("안녕하세요. 저는 켓봇이라고 합니다"));
@@ -39,7 +37,9 @@ namespace KetBot.Bot
                 else
                 {
                     //await Conversation.SendAsync(activity, () => new KetbotLuisDialog(ketbotRepository));
-                    await Conversation.SendAsync(activity, () => new LuisRootDialog(ketbotRepository));
+                    //await Conversation.SendAsync(activity, () => new LuisRootDialog(ketbotRepository));
+
+                    
                 }
             }
             else
