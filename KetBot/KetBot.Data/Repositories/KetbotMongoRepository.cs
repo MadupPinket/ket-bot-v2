@@ -36,7 +36,6 @@ namespace KetBot.Data.Repositories
             // TODO : 쿼리 다시 만들어야 함. 
             var list = await answers.Find(filter).ToListAsync();
             return list.Where(x => x.intent == intent).ToList();
-            //return list;
         }
     }
 }

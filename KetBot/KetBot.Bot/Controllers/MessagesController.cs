@@ -38,7 +38,8 @@ namespace KetBot.Bot
                 }
                 else
                 {
-                    await Conversation.SendAsync(activity, () => new KetbotLuisDialog(ketbotRepository));
+                    //await Conversation.SendAsync(activity, () => new KetbotLuisDialog(ketbotRepository));
+                    await Conversation.SendAsync(activity, () => new LuisRootDialog(ketbotRepository));
                 }
             }
             else

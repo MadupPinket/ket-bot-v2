@@ -5,6 +5,7 @@ using KetBot.Data.Repositories;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,9 @@ namespace KetBot.Bot
 
         static void BuildContainer(ContainerBuilder builder)
         {
-            builder.RegisterType<KetbotMongoRepository>().As<IKetbotMongoRepository>();
+            //builder.RegisterType<KetbotMongoRepository>().As<IKetbotMongoRepository>();
+            //builder.RegisterType<MongoClient>().AsSelf().UsingConstructor()
+            builder.RegisterType<KetbotMongoRepository>().Keyed<IKetbotMongoRepository>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<KetbotLuisDialog>().As<IDialog<object>>().InstancePerDependency();
 
             // Get your HttpConfiguration.
