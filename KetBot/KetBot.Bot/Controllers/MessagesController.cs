@@ -48,8 +48,28 @@ namespace KetBot.Bot
                     switch (ketbotLuisResult.TopScoringIntent.Intent)
                     {
                         case "None":
-                            strRet = "죄송합니다. 도움을 드릴 수가 없습니다.";
-                            reply = activity.CreateReply(strRet);
+                            reply = activity.CreateReply("로그아웃 방법은 '핀켓 앱 실행'-'사용자설정'-'나의 정보' 에 들어가셔서 로그아웃 버튼을 누르시면 된답니다.",);
+                            reply.Attachments = new List<Attachment>
+                            {
+                                new Attachment
+                                {
+                                    ContentUrl = "https://fb-s-a-a.akamaihd.net/h-ak-xfp1/v/t31.0-8/14753331_1662104677413221_4328329874035870695_o.png?oh=7ecf85bcb515047af565a4b6c301ae7b&oe=5956D4ED&__gda__=1499037542_d1bb07172ac20cbd5b52f1cd7c480d76",
+                                    ContentType  = "imgage/png",
+                                    Name ="핀켓 포인트 모으는 방법"
+                                },
+                                new Attachment
+                                {
+                                    ContentUrl = "https://fb-s-a-a.akamaihd.net/h-ak-xfp1/v/t31.0-8/14753331_1662104677413221_4328329874035870695_o.png?oh=7ecf85bcb515047af565a4b6c301ae7b&oe=5956D4ED&__gda__=1499037542_d1bb07172ac20cbd5b52f1cd7c480d76",
+                                    ContentType  = "imgage/png",
+                                    Name ="핀켓 포인트 모으는 방법2"
+                                },
+                                new Attachment
+                                {
+                                    ContentUrl = "https://fb-s-a-a.akamaihd.net/h-ak-xfp1/v/t31.0-8/14753331_1662104677413221_4328329874035870695_o.png?oh=7ecf85bcb515047af565a4b6c301ae7b&oe=5956D4ED&__gda__=1499037542_d1bb07172ac20cbd5b52f1cd7c480d76",
+                                    ContentType  = "imgage/png",
+                                    Name ="핀켓 포인트 모으는 방법3"
+                                }
+                            };
                             break;
                         default:
                             reply = await ReplyAsync(activity, ketbotLuisResult);
