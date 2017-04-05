@@ -48,7 +48,7 @@ namespace KetBot.Bot
                     switch (ketbotLuisResult.TopScoringIntent.Intent)
                     {
                         case "None":
-                            reply = activity.CreateReply("로그아웃 방법은 '핀켓 앱 실행'-'사용자설정'-'나의 정보' 에 들어가셔서 로그아웃 버튼을 누르시면 된답니다.",);
+                            reply = activity.CreateReply("로그아웃 방법은 '핀켓 앱 실행'-'사용자설정'-'나의 정보' 에 들어가셔서 로그아웃 버튼을 누르시면 된답니다.");
                             reply.Attachments = new List<Attachment>
                             {
                                 new Attachment
