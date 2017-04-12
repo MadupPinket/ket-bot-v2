@@ -118,9 +118,11 @@ namespace KetBot.Bot
 
         private async Task<IEnumerable<KetBotDocument>> GetAnswersAsync(string intent, List<string> entities)
         {
-            IKetbotMongoRepository ketbotRepository = new KetbotMongoRepository();
-            //return await ketbotRepository.GetByKeywordWithinIntentAsync(intent, entities);
-            return await ketbotRepository.GetAllByIntentAsync(intent);
+            //IKetbotRepository ketbotRepository = new KetbotMongoRepository();
+            IKetbotRepository ketbotRepository = new KetbotAzureSearchRepository();
+
+            return await ketbotRepository.GetByKeywordWithinIntentAsync(intent, entities);
+            //return await ketbotRepository.GetAllByIntentAsync(intent);
         }
 
         private List<string> RemoveSpace(List<string> entities)

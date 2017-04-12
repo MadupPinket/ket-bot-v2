@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace KetBot.Data.Repositories
 {
     [Serializable]
-    public class KetbotMongoRepository : IKetbotMongoRepository
+    public class KetbotMongoRepository : IKetbotRepository
     {
         private IMongoCollection<KetBotDocument> answers;
 

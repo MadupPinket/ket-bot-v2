@@ -49,9 +49,7 @@ namespace KetBot.Tools.Mongo2DocDB
                     }).GetAwaiter().GetResult();
                     
                 }
-
                 Console.WriteLine("done");
-
             }
             catch (DocumentClientException de)
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KetBot.Data.Repositories
 {
-    public interface IKetbotMongoRepository
+    public interface IKetbotRepository
     {
         Task<IEnumerable<KetBotDocument>> GetAllByIntentAsync(string intent);
 
