@@ -73,7 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DocumentDBModel.cs" />
     <Compile Include="Model\KetBotDocument.cs" />
+    <Compile Include="Model\MongoDBModel.cs" />
     <Compile Include="Repositories\IKetbotRepository.cs" />
     <Compile Include="Repositories\KetbotAzureSearchRepository.cs" />
     <Compile Include="Repositories\KetbotMongoRepository.cs" />
