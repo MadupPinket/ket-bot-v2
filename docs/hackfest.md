@@ -1,8 +1,7 @@
 
-매드업은 2011년 설립된 마케팅 전문기업으로 핀켓(FINKET)이라는 Mobile Finance Service를 운영하고 있습니다. 핀켓 앱은 스마트폰의 잠금화면으로 신뢰성 있는 금융 기사와 포인트 통합 그리고 편리한 멤버십 적립과 개인 금융 서비스를, 광고주에게는 타겟 금융 광고 플랫폼을 제공합니다. 특히 카드 적립포인트나 상품권과 같이 현금처럼 사용할 수 있는 포인트를 다루기 때문에 고객들로 부터 문의사항이 많은 편입니다. 
+[매드업](http://madup.com/)은 2011년 설립된 마케팅 전문기업으로 [핀켓(FINKET)](https://play.google.com/store/apps/details?id=com.madup.pocket)이라는 Mobile Finance Service를 운영하고 있습니다. 핀켓 앱은 스마트폰의 잠금화면으로 신뢰성 있는 금융 기사와 포인트 통합 그리고 편리한 멤버십 적립과 개인 금융 서비스를, 광고주에게는 타겟 금융 광고 플랫폼을 제공합니다. 특히 카드 적립포인트나 상품권과 같이 현금처럼 사용할 수 있는 포인트를 다루기 때문에 고객들의 문의사항이 많은 편입니다. 
 
 고객들의 문의사항이나 불만사항들을 분석하고 향후 일부 CS(Customer Satisfaction)업무를 챗봇을 통해서 지원하는 프로젝트를 이번 Hackfest를 통해서 검증해 보기로 하였습니다. Microsoft Bot Framework를 사용하여 챗봇을 구현하고 Microsoft Azure의 DocumentDB, Search 등의 기능을 백엔드에서 사용하여 데이터를 처리했습니다. 특히 고객들과의 자연스러운 채팅을 구현하기 위해 Microsoft Cognitive Services의 자연어 처리 서비스인 LUIS(Language Understanding Intelligent Service)를 사용했습니다. 
-
 
 Hackfest 멤버
 - 김국진: Madup, CTO
@@ -14,15 +13,14 @@ Hackfest 멤버
 
 ## 고객사 ## 
 
-[MADUP Inc.](http://madup.com/) is the fastest growing mobile app performance marketing startup in South Korea with a 30% sales growth in 2016 after its establishment in 2015. They have excellent in-house data scientists and developers that are proficient in business analysis and opportunities and big data analysis.
+MADUP은 2015년 설립 후 2016년에 30%의 매출 성장을 일으키며 빠르게 성장하고 있는 국내 1위 모바일 앱 퍼포먼스 마케팅 스타트업입니다. MAPUP은 사내에 역량이 뛰어난 데이터 사이언티스트와 개발진을 보유하고 있으며 비즈니스 분석 및 기획, 빅데이터 분석 능력을 갖추고 있습니다. 
 
-It is operating an app called [FinKet](https://play.google.com/store/apps/details?id=com.madup.pocket) as well as mobile app marketing services. This app provides a service that allows a user to integrate various credit card points and provides targeted finance advertising platforms for advertisers. It was ranked as the second most downloaded app in the lifestyles category of webstore in South Korea and it featured many times in finance area.
+현재 모바일 앱 마케팅 외에도 핀켓이라는 앱을 운영하고 있습니다. 핀켓 앱은 사용자에게 다양한 신용카드 포인트를 통합하여 사용할 수 있는 서비스를 제공하며 광고주에게는 타겟 금용 광고 플랫폼을 제공하고 있습니다. 한국 앱스토어의 라이프스타일 분야에서 다운로드 2위를 기록하였으며 Finance 분야에 다수 featured 되었습니다.
+
  
 ## 고객의 난제 ##
 
-MADUP Inc. has received a variety of CS inquiries while operating FinKet, but it lacks the manpower to deal with it. MADUP Inc. wishes to reduce the number of customer response tasks and provides quick response to customers by developing a bot to respond for CS. For this purpose, it is necessary to develop a chatbot that instantly distinguishes various classifications of QnA and well recognizes Korean morphemes.
-
-FinKet 앱을 통한 고객문의를 처리하는 방식은 아래 그림과 같습니다. 앱에서 고객이 "사용자 의견" 버튼을 누르면 제목과 내용을 입력할 수 있는 폼이 나옵니다. 고객이  내용을 입력하고 전송하면 먼저 데이터베이스에 저장되고 담당자가 전화, 이메일, 푸시알림 등을 이용하여 응답하는 방식입니다. 이런 프로세스는 보통 잘 작동되지만 업무시간이 지나면 응답이 느려지는 단점이 있습니다. 별도 처리 프로세스가 필요없는 단순 문의의 경우는 빠르게 응답 할 수 있음에도 시간이 걸리고 CS 담당자에게는 반복적인 작업이 됩니다. 특히 한명이 이미 여러가지 업무를 수행하고 있는 스타트업의 특성상 CS 업무는 모두에게 부담이 되는 업무가 되었고 가장 중요한 일임에도 불구하고 소홀이 다뤄지는 문제가 있습니다. 
+FinKet 앱을 통한 고객문의를 처리하는 방식은 아래 그림과 같습니다. 앱에서 고객이 "사용자 의견" 버튼을 누르면 제목과 내용을 입력할 수 있는 폼이 나옵니다. 고객이  내용을 입력하고 전송하면 먼저 데이터베이스에 저장되고 담당자가 전화, 이메일, 푸시알림 등을 이용하여 응답하는 방식입니다. 이런 프로세스는 보통 잘 작동되지만 업무시간이 지나면 응답을 할 수 없는 단점이 있습니다. 사실 별도 처리 프로세스가 필요없는 단순한 문의의 경우는 빠르게 응답 할 수 있음에도 시간이 걸리고 CS 담당자에게는 반복적인 작업이 됩니다. 특히 한명이 이미 여러가지 업무를 수행하고 있는 스타트업의 특성상 CS 업무는 모두에게 부담이 되는 업무가 되었고 가장 중요한 일임에도 불구하고 소홀이 다뤄지는 문제가 있습니다. 
 
 따라서 챗봇을 통해서 단순한 문의에 대한 업무를 자동화하여 24시간 빠르게 대응하고 챗봇이 처리할 수 없는 업무에 대해서는 담당자에게 처리 요청이 가도록 프로세스를 개선할 수 있다면 고객과 직원이 모두 만족할 것입니다. 단순한 질문 외에도 서버스의 API를 점차 개선하여 포인트 조회, 사용내역 조회 등의 업무를 챗봇으로 이전하는 등 지속적인 개선이 가능할 것으로 예상됩니다. 
  
@@ -34,37 +32,13 @@ FinKet 앱을 통한 고객문의를 처리하는 방식은 아래 그림과 같
 
 **LUIS 학습**
 
-분석된 데이터를 기반으로 LUIS를 학습시키다 
+분석된 데이터를 기반으로 LUIS를 학습시키다. 
 
 **챗봇 구현 및 데이터의 저장과 검색**
 
-![Architecture Diagram]()
+![Architecture Diagram](images/system-diagram.jpg)
 
-The majority of your win artifacts will be included in this section, including (but not limited to) the following: Source code snippets, pictures, drawings, architectural diagrams, value stream mappings, and demo videos.
 
-This section should include the following details:
-
-- What was worked on and what problem it helped solve.
-
-- Architecture diagram/s (**required**). Example below:
-
- ![IoT Architecture Diagram](/images/templates/caaparchitecture.png)
-
-**Directions for adding images:**
-
-1. Create a folder for your project images in the “images” folder in the GitHub repo files. This is where you will add all of the images associated with your write-up.
- 
-2. Add links to your images using the following absolute path:
-
-  `![Description of the image]({{site.baseurl}}/images/projectname/myimage.png)`
-    
-  Here’s an example: 
-
-  `![Value Stream Mapping]({{site.baseurl}}/images/orckestra/orckestra2.jpg)`
-
- Note that capitalization of the file name and the file extension must match exactly for the images to render properly.
-
-*If you’d really like to make your write-up pop, include a customer quote that highlights the solution. Attribute all quotes with Name, Title, Company.*
 
 
 ## Technical delivery ##
