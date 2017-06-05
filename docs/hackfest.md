@@ -256,7 +256,34 @@ public class Stage2Dialog : IDialog<string>
 
 ![Azure Search Index 만들기 2](images/azure-search-index-2.jpg)
 
+### LUIS 요청 
 
+챗봇에서 LUIS에 요청을 하는 방법 중에 Bot Builder SDK의 [LuisDialog](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.builder.dialogs.luisdialog-1?view=botbuilder-3.8)를 사용하는 방법이 있지만 KetBot v2 에서는 GitHub의 [BotBuilder Sample](https://github.com/Microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-LUIS)을 참고하여 구현했다. luis.ai 를 통해서 배포(Publish)되면 URL이 제공되는데 이 URL에 메시지를 같이 전송하면 결과를 받을 수 있다. 
+
+``` c#
+public class LUISKetbotClient
+{
+	public static async Task<LuisResult> ParseUserInput(string strInput)
+	{
+		string strRet = string.Empty;
+		string strEscaped = Uri.EscapeDataString(strInput);
+
+		using (var client = new HttpClient())
+		{
+			string uri = "https://api.projectoxford.ai/luis/v1/application?id={id}&subscription-key={secret key}&q=" + strEscaped;
+			HttpResponseMessage msg = await client.GetAsync(uri);
+
+			if (msg.IsSuccessStatusCode)
+			{
+				var jsonResponse = await msg.Content.ReadAsStringAsync();
+				var _Data = JsonConvert.DeserializeObject<LuisResult>(jsonResponse);
+				return _Data;
+			}
+		}
+		return null;
+	}
+}
+```
 
 ## Conclusion ##
 
