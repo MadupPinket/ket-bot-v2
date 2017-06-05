@@ -15,11 +15,16 @@ Bot
 - [Bot Framework Template](http://aka.ms/bf-bc-vstemplate)
 - [Bot Framework Emulator](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator)
 
-App 
+Android App 
 - Eclipse 
 - Java 
 - Android ADT, GIT
 - [Direct Line REST API 3.0](https://docs.botframework.com/en-us/restapi/directline3)
+
+Azure 
+- Azure Cosmos DB + Azure Serach 
+- Azure SQL Database
+- Azure Web App
 
 ## 고객사 ## 
 
@@ -38,7 +43,7 @@ App
 ### KetBot v1 ###
 
 #### CS 데이터의 분석 ####
-그 동안 서비스를 운영하면서 쌓아놓은 약 2400건의 고객의 질문과 답변 중에서 가장 빈도가 높은 질문을 뽑아서 3단계 카테고리로 정의했습니다. 최종 질문과 그 질문에 적합한 답변 데이터도 준비를 해서 엑셀로 만들고 Azure SQL Database에 저장했습니다. 
+KetBot v2에서는 사람의 직관으로 데이터를 분석했습니다. 그 동안 서비스를 운영하면서 쌓아놓은 약 2000건의 고객의 질문과 답변 중에서 가장 빈도가 높은 질문을 뽑아서 3단계 카테고리로 정의했습니다. 최종 질문과 그 질문에 적합한 답변 데이터도 준비를 해서 엑셀로 만들고 Azure SQL Database에 저장했습니다. 
 
 고객이 "포인트 통합 > 포인트 통합오류 > 보안문자"를 선택하면 "보안문자 입력이 안되고 오류가 있습니다" 라는 질문이 선택되고 이 질문에 대한 준비된 답변을 고객에게 보여주는 방식입니다. 답변은 같은 내용이지만 3가지 버전으로 준비해서 조금이라도 사람의 느낌을 주려고 노력했습니다. 
 
@@ -60,6 +65,9 @@ HackFest의 결과물인 소스코드는 오픈소스로 [Github](https://github
 
 Microsoft Bot Framework의 기본 설계 철학 중 하나는 Stateless 입니다. 따라서 대화 중에 저장되어야 하는 상태 값들은 모두 Bot State Service에 저장해서 Bot 자체는 상태를 가지고 있지 않도록 해야만 합니다. 그러면 Bot을 호스팅하고 있는 웹앱을 여러 대로 늘리는 Scale Out을 해도 문제가 발생하지 않습니다. 
 
+KetBot v1 작동영상 
+
+<p><a href="https://youtu.be/iUrwiaHB7p4" target="_blank"><img src="https://raw.githubusercontent.com/MadupPinket/ket-bot/master/docs/images/FINKET%20DEmo.jpg" alt="KetBot Demo" ></a></p>
 
 ### KetBot v2 ###
 
@@ -96,12 +104,164 @@ KetBot v1에서 추가된 부분은 LUIS의 사용입니다. 사용자의 메시
 
 ## Technical delivery ##
 
+### Android 앱에서 Direct Line API 3.0 적용 
+
+Android 앱에서는 DirectLine API 3.0을 통해서 Bot Connector와 통신하는 부분이 핵심 코드다. 나머지는 채팅 UI를 만들어 내는 부분이다. 향후 핀켓 앱에서느 고객지원 버튼을 누르면 채팅창이 뜨는 형식으로 통합될 예정이다. 
+
+**Authentication**
+
+REST API이기 때문에 [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) 같은 툴을 사용하면 API 테스트가 가능하다. API를 사용하기 위해서는 인증을 거쳐서 토큰을 얻어와야 한다. 얻어온 토큰은 헤더에 추가해서 인증을 한다. 
+
+- URL: https://directline.botframework.com/v3/directline/tokens/generate 
+- Method: POST
+- Header: Authentication: Bearer {secret key from dev portal}
+- body: 없음. 
+
+응답에서 token값을 사용한다. token은 expires_in 시간이 지나면 무효가 되는데 기본값이 30분이다. 30분 이내에 Refresh 시켜줘야 한다. Refresh 방법은 /v3/directline/tokens/refresh 주소로 POST 전송을 보낼때 헤더에 기존 token을 보내면 된다. 상세 내용은 Refresh a token 참조
+
+![KetBot v2 Architecture Diagram](images/bot-auth-postman.jpg)
+
+**Conversation ID 획득**
+
+``` java
+HttpPost httppost = new HttpPost(rootUrl + "directline/conversations");
+httppost.setHeader("Authorization", "Bearer " + secretid);
+			   
+ResponseHandler<String> responseHandler = new BasicResponseHandler();
+String responseBody = null;
+responseBody = httpclient.execute(httppost, responseHandler);
+				
+JSONObject jobject = null;
+			   
+jobject = new JSONObject(responseBody);
+token = jobject.getString("token");
+conversationId = jobject.getString("conversationId");
+streamUrl = jobject.getString("streamUrl");
+```
+**메지지 전송(startMessage)**
+
+``` java
+HttpPost httppost;
+httppost = new HttpPost(rootUrl + "directline/conversations/" + conversationId +"/activities");
+JSONObject json = new JSONObject();
+			   
+json.put("text", text);
+json.put("type", "message");
+json.put("from", (new JSONObject().put("id","bjlee")));
+StringEntity params = new StringEntity(json.toString(), HTTP.UTF_8);
+				
+httppost.setHeader("Authorization", "Bearer " + token);
+httppost.setHeader("Content-Type", "application/json");
+httppost.addHeader("Authorization", "Bearer " + token);
+httppost.addHeader("Content-Type", "application/json");
+			
+httppost.setEntity(params);
+```
+
+**메시지 수신(getMessage)**
+
+``` java
+HttpGet httppost;
+httppost = new HttpGet(rootUrl + "directline/conversations/" + conversationId +"/activities?watermark=" + watermark);
+JSONObject json = new JSONObject();
+			
+httppost.setHeader("Authorization", "Bearer " + token);
+httppost.setHeader("Content-Type", "application/json");
+httppost.addHeader("Authorization", "Bearer " + token);
+httppost.addHeader("Content-Type", "application/json");
+			
+ResponseHandler<String> responseHandler = new BasicResponseHandler();
+String responseBody = null;
+			   
+responseBody = httpclient.execute(httppost, responseHandler);
+```
+응답을 받아보면 아래와 같다. 각 보내고 받은 메시지에도 ID가 부여 된 걸 알 수 있다. 시간과 채널에 대한 정보와 Bot의 이름 정보도 온다.여기서 중요한 값이 하나 오는데 바로 Watermark라는 값이다. 이 값은 메시지를 보낼 때 마다 단순 증가한다. 메시지를 받을 때 GET 요청을 할때 watermark 라는 Query String을 붙여주지 않으면 응답으로 해당 대화의 전체 히스토리를 다 전달 해준다. 메시지를 100번 주고 받았다면 100개의 과거 메시지가 다 전달된다. 이 때 Watermark 값을 GET 요청에 Query String으로 전달해 주면 해당 watermark 이후의 메시지만 응답으로 주니 더욱 효율적인 통신을 할 수 있다.
+``` json
+{
+  "activities": [
+    {
+      "type": "message",
+      "id": "3Dk2pLyFLvc|000000000000000004",
+      "timestamp": "2016-12-02T12:18:51.0051607Z",
+      "channelId": "directline",
+      "from": {
+        "id": "ketbotv2",
+        "name": "ketbotv2"
+      },
+      "conversation": {
+        "id": "3Dk2pLyFLvc"
+      },
+      "text": "You sent 안녕하세요! which was 6 characters",
+      "replyToId": "3Dk2pLyFLvc|000000000000000003"
+    }
+  ],
+  "watermark": "4"
+}
+```
+
+**State 저장소**
+
+사용자와 Bot의 대화를 이어갈때 대화의 상태 정보를 저장해야 할 때가 있다. 상태 정보는 Bot Framework에서 제공하는 State 저장소에 저장을 해야 한다. 저장소는 User, Coversation, Private Conversation에 의해 구분되어 저장된다. 대화는 여러명이 같이 진행할 수 있고 그 대화의 상태는 coversation에 저장하고 각 개인의 상태는 Private Conversation에 저장한다. 
+
+데이터 가져오기
+- GetUserData()
+- GetConversationData()
+- GetPrivateConversationData()
+
+데이터 저장
+- SetUserData()
+- SetConversationData()
+- SetPrivateConversationData()
+
+``` c#
+[Serializable]
+public class Stage2Dialog : IDialog<string>
+{
+   public async Task StartAsync(IDialogContext context)
+   {
+        // get state 
+        KetBotState state = null;
+        context.ConversationData.TryGetValue("KetBotState", out state);
+        if (KetBotState == null) return;
+
+        // save state
+        context.ConversationData.SetValue("KetBotState", state);
+   }
+}
+```
+
+**Azure Search** 
+
+Azure Cosmos DB에 담긴 데이터의 형태는 아래와 같다. 
+```json
+{
+    "answer": "로그아웃을 원하시나요? \n로그아웃은 '핀켓 앱 실행' > '사용자설정' > '나의 정보' 에 들어가셔서 로그아웃 버튼을 누르시면 된답니다. ",
+    "keywords": [
+      "로그아웃",
+      "로그 아웃",
+      "방법",
+      "방안",
+      "어떻게",
+      "어떤"
+    ],
+    "intent": "기능 방법 요청",
+    "id": "D0202",
+    "title": "로그아웃 방법",
+    "attachments": null
+  }
+```
+이 데이터를 Azure Search에 인덱스를 만드는 것은 Azure Portal을 이용해서 만들 수 있다. 만드는 방법은 [포털에서 첫번째 Azure Search 인덱스를 만들고 쿼리](https://docs.microsoft.com/ko-kr/azure/search/search-get-started-portal)문서를 참조 바란다. 
+
+![Azure Search Index 만들기 1](images/azure-search-index-1.jpg)
+
+![Azure Search Index 만들기 2](images/azure-search-index-2.jpg)
 
 
-
- 
 ## Conclusion ##
 
+3단계의 카테고리를 선택하여 최종 답변을 얻어내는 KetBot v1의 방식은 오류없이 잘 작동하고 CS 업무를 대체할 수 있습니다. 하지만 대화라는 느낌이나 챗봇의 느낌이 나지는 않습니다. LUIS를 이용해서 자연어 처리를 붙인 것이 더 자연스러운 느낌이 나고 향후 질문과 답변이 많아졌을 때 확장에 용이합니다. 하지만 사용자들의 메시지로 부터 Intent와 Entity를 얻어내려면 LUIS의 학습을 잘 시켜야 합니다. LUIS의 학습을 위해서 사전에 데이터 분석을 해서 의미 있는 데이터를 얻어 냈지만 LUIS의 특성을 잘 살리지는 못해서 인식이 완벽하지는 않습니다. 지속적으로 LUIS를 학습시켜서 인식률을 높이는 작업이 뒤따라야 할 것 같습니다. 
+
+이번 HackFest를 통해서 챗봇을 구현했고 미래를 보았습니다. 사실 핀켓의 서비스 전체가 챗봇으로 구현이 되는 것이 핀켓의 최종 목표가 될 것 같다는 생각이 들었습니다. 챗봇과의 대화를 통해서 포인트를 적립하고 적립된 포인트로 상품을 구매할 수 있도록 하는 것이 핀켓의 미래이고 그 미래를 머지 않아 구현할 수 있겠다는 확신이 들었습니다. 
 
 ## Additional resources ##
 
