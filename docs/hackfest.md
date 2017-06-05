@@ -117,8 +117,6 @@ REST API이기 때문에 [Postman](https://chrome.google.com/webstore/detail/pos
 - Header: Authentication: Bearer {secret key from dev portal}
 - body: 없음. 
 
-token은 expires_in 시간이 지나면 무효가 되는데 기본값이 30분입니다. 따라서 30분 이내에 Refresh 시켜줘야 합니다. Refresh 방법은 /v3/directline/tokens/refresh 주소로 POST 전송을 보낼때 헤더에 기존 token을 보내면 됩니다. 
-
 ![KetBot v2 Architecture Diagram](images/bot-auth-postman.jpg)
 
 **Conversation ID 획득**
@@ -177,7 +175,7 @@ String responseBody = null;
 			   
 responseBody = httpclient.execute(httppost, responseHandler);
 ```
-챗봇에서 응답을 받아보면 아래와 같습니다. 보내고 받은 메시지에도 ID가 부여 된 걸 알 수 있습니다. 시간과 채널에 대한 정보와 Bot의 이름 정보도 응답 메시지에 들어 있습니다.  여기서 중요한 값이 하나 오는데 바로 Watermark라는 값입니다. 이 값은 메시지를 보낼 때 마다 단순 증가합니다. 메시지를 받기 위해 GET 요청을 할 때 watermark 라는 Query String을 붙여주지 않으면 응답으로 해당 대화의 전체 히스토리를 다 전달 해줍니다. 메시지를 100번 주고 받았다면 100개의 과거 메시지가 다 전달됩니다. 이 때 Watermark 값을 GET 요청에 Query String으로 전달해 주면 해당 watermark 이후의 메시지만 응답으로 주니 더욱 효율적인 통신을 할 수 있습니다.
+챗봇에서 응답을 받아보면 아래와 같습니다. 보내고 받은 메시지에도 ID가 부여 된 걸 알 수 있습니다. 시간과 채널에 대한 정보와 Bot의 이름 정보도 응답 메시지에 들어 있습니다.  여기서 중요한 값이 하나 오는데 바로 Watermark라는 값입니다. 이 값은 메시지를 보낼 때 마다 단순 증가합니다. 메시지를 받기 위해 GET 요청을 할 때 watermark 라는 Query String을 붙여주지 않으면 응답으로 해당 대화의 전체 히스토리를 다 전달 해줍니다. 메시지를 100번 주고 받았다면 100개의 과거 메시지가 다 전달됩니다. 이 때 Watermark 값을 GET 요청에 Query String으로 전달해 주면 해당 watermark 이후의 메시지만 응답으로 주기 때문에 더욱 효율적인 통신을 할 수 있습니다.
 ``` json
 {
   "activities": [
@@ -201,7 +199,7 @@ responseBody = httpclient.execute(httppost, responseHandler);
 }
 ```
 
-**State 저장소**
+### State 저장소
 
 사용자와 Bot의 대화를 이어갈때 대화의 상태 정보를 저장해야 할 때가 있습니다. 상태 정보는 Bot Framework에서 제공하는 State 저장소에 저장을 해야 합니다. 저장소는 User, Coversation, Private Conversation에 의해 구분되어 저장됩니다. 대화는 여러명이 같이 진행할 수 있으니 그 대화의 상태는 coversation에 저장하고 각 개인의 상태 정보는 Private Conversation에 저장합니다. 
 
@@ -232,7 +230,7 @@ public class Stage2Dialog : IDialog<string>
 }
 ```
 
-**Azure Search** 
+### 답변의 검색
 
 질문과 대답 정보는 데이터 베이스에 저장됩니다. Azure Cosmos DB에 담긴 데이터의 형태는 아래와 같습니다. 
 ```json
@@ -268,6 +266,7 @@ public class Stage2Dialog : IDialog<string>
 
 ## Additional resources ##
 
+- [KetBot v1 데모 영상](https://www.youtube.com/watch?v=iUrwiaHB7p4)
 - [KetBot v1 source code](https://github.com/MadupPinket/ket-bot)
 - [KetBot v2 source code](https://github.com/MadupPinket/ket-bot-v2)
 - [Direct Line REST API 3.0(한국어)](https://blogs.msdn.microsoft.com/eva/?p=12625)
