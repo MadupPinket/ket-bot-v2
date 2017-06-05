@@ -250,7 +250,11 @@ public class Stage2Dialog : IDialog<string>
     "attachments": null
   }
 ```
-이 데이터를 이용해서 Azure Search에 인덱스를 만드는 것은 Azure Portal에서 가능합니다. 만드는 방법은 [포털에서 첫번째 Azure Search 인덱스를 만들고 쿼리](https://docs.microsoft.com/ko-kr/azure/search/search-get-started-portal)문서를 참조하면 됩니다. 
+이 데이터를 이용해서 Azure Search에 인덱스를 만드는 것은 Azure Portal에서 가능합니다. 만드는 방법은 [포털에서 첫번째 Azure Search 인덱스를 만들고 쿼리](https://docs.microsoft.com/ko-kr/azure/search/search-get-started-portal)문서를 참조하면 됩니다. keywords 데이터는 배열이기 때문에 인덱스 생성을 위해서 Query를 이용하여 Flatten 시켜야 합니다. 
+
+```
+SELECT c.id, c.answer, c.intent, c.title, keyword, c._ts FROM c JOIN keyword IN c.keywords
+```
 
 ![Azure Search Index 만들기 1](images/azure-search-index-1.jpg)
 
